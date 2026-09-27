@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Happy Birthday</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+background:linear-gradient(180deg,#FFF8F0,#FDEEF5);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+color:#6C5A49;
+}
+
+.card{
+width:min(700px,100%);
+background:white;
+border-radius:28px;
+padding:30px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+text-align:center;
+}
+
+h1{
+font-size:2.6rem;
+margin-bottom:15px;
+}
+
+h2{
+margin-bottom:15px;
+}
+
+.message{
+line-height:1.9;
+font-size:1.05rem;
+margin:20px 0;
+min-height:120px;
+}
+
+.btn{
+background:#F7D6E6;
+border:none;
+padding:14px 24px;
+border-radius:999px;
+font-size:16px;
+cursor:pointer;
+margin:6px;
+color:#6C5A49;
+transition:.2s;
+}
+
+.btn:hover{
+transform:translateY(-2px);
+}
+
+.box{
+font-size:90px;
+margin:20px 0;
+}
+
+.hp{
+width:100%;
+height:22px;
+background:#eee;
+border-radius:999px;
+overflow:hidden;
+margin-top:10px;
+}
+
+.hp-bar{
+height:100%;
+width:100%;
+background:linear-gradient(90deg,#DDF4EA,#E4BF6B);
+transition:1s;
+}
+
+.number{
+font-size:3rem;
+font-weight:bold;
+letter-spacing:8px;
+margin:30px 0;
+}
+
+.success{
+font-size:1.6rem;
+font-weight:bold;
+line-height:1.8;
+color:#D89D2E;
+}
+
+.gift-btn{
+display:inline-block;
+margin-top:20px;
+padding:16px 30px;
+background:#DDEEFF;
+color:#555;
+text-decoration:none;
+font-weight:bold;
+border-radius:999px;
+}
+
+@keyframes shake {
+
+0%{
+transform:translateX(0);
+}
+
+20%{
+transform:translateX(-10px);
+}
+
+40%{
+transform:translateX(10px);
+}
+
+60%{
+transform:translateX(-10px);
+}
+
+80%{
+transform:translateX(10px);
+}
+
+100%{
+transform:translateX(0);
+}
+
+}
+
+.shake{
+animation:shake .5s;
+}
+
+@keyframes pop {
+
+0%{
+transform:scale(.8);
+opacity:0;
+}
+
+100%{
+transform:scale(1);
+opacity:1;
+}
+
+}
+
+.pop{
+animation:pop .5s ease;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+<div id="app"></div>
+</div>
+
+<script>
+
+const app = document.getElementById("app");
+
+let turn = 0;
+let hp = 100;
+
+function home(){
+
+app.innerHTML=`
+
+<h1>Happy Birthday!!</h1>
+
+<div class="message">
+あなたにとって今日は特別な日。<br>
+小さな冒険に出かけよう。
+</div>
+
+<button class="btn" onclick="startGame()">
+冒険をする
+</button>
+
+`;
+
+}
+
+function startGame(){
+
+turn=0;
+hp=100;
+
+app.innerHTML=`
+
+<div class="message">
+
+あなた は<br>
+ふしぎなプレゼントをみつけた。<br><br>
+
+プレゼントのまもりびと が あらわれた！
+
+</div>
+
+<div class="box" id="box">📦</div>
+
+<div>HP</div>
+
+<div class="hp">
+<div class="hp-bar" id="hpBar"></div>
+</div>
+
+<br>
+
+<button class="btn" onclick="attack()">
+たたかう
+</button>
+
+`;
+
+}
+
+function attack(){
+
+turn++;
+
+const box=document.getElementById("box");
+const hpBar=document.getElementById("hpBar");
+const msg=document.querySelector(".message");
+
+box.classList.remove("shake");
+void box.offsetWidth;
+box.classList.add("shake");
+
+if(turn===1){
+
+hp=80;
+
+msg.innerHTML=`
+
+あなた の こうげき！<br><br>
+
+21ダメージ！<br><br>
+
+ふしぎな箱📦 は まだ がんばっている！
+
+`;
+
+hpBar.style.width=hp+"%";
+
+}
+
+else if(turn===2){
+
+hp=40;
+
+msg.innerHTML=`
+
+あなた の こうげき！<br><br>
+
+27ダメージ！<br><br>
+
+ふしぎな箱📦 が ぐらついた！
+
+`;
+
+hpBar.style.width=hp+"%";
+
+}
+
+else{
+
+hp=0;
+
+msg.innerHTML=`
+
+あなた の こうげき！<br><br>
+
+クリティカルヒット！<br><br>
+
+927ダメージ！
+
+`;
+
+hpBar.style.width="0%";
+
+setTimeout(()=>{
+
+msg.innerHTML=`
+
+あなた の こうげき！<br><br>
+
+クリティカルヒット！<br><br>
+
+927ダメージ！<br><br>
+
+ふしぎな箱📦 を たおした！
+
+`;
+
+},1000);
+
+setTimeout(reward,2500);
+
+}
+
+}
+
+function reward(){
+
+app.innerHTML=`
+
+<div class="box pop">📦</div>
+
+<div class="message">
+
+ふしぎな箱 が ひらいた！<br><br>
+
+あなたは2500マネー を てにいれた！
+
+</div>
+
+<button class="btn" onclick="doubleChance()">
+ダブルアップチャンスへ
+</button>
+
+`;
+
+}
+
+function doubleChance(){
+
+app.innerHTML=`
+
+<h2>ダブルアップチャンス！</h2>
+
+<div class="message">
+
+2500マ二ーを5000マーにできる！<br><br>
+
+これから表示される4桁の数字が<br>
+5000以上か5000未満か<br>
+予想して当ててね。
+
+</div>
+
+<button class="btn" onclick="guessHigh()">
+5000以上
+</button>
+
+<button class="btn" onclick="guessLow()">
+5000未満
+</button>
+
+`;
+
+}
+
+function animateNumber(finalNumber, callback){
+
+const numElement=document.getElementById("num");
+
+let index=0;
+
+const timer=setInterval(()=>{
+
+numElement.innerText=
+finalNumber.slice(0,index+1);
+
+index++;
+
+if(index===4){
+
+clearInterval(timer);
+
+if(callback){
+
+setTimeout(callback,700);
+
+}
+
+}
+
+},700);
+
+}
+
+function guessHigh(){
+
+const result = String(
+Math.floor(Math.random()*5000)
+).padStart(4,"0");
+
+app.innerHTML=`
+<div class="number" id="num"></div>
+`;
+
+animateNumber(result,()=>{
+
+app.innerHTML+=`
+
+<div class="message">
+
+ざんねん！<br><br>
+
+ダブルアップしっぱい...
+
+</div>
+
+<button
+class="btn"
+onclick="doubleChance()">
+
+もう一度挑戦する
+
+</button>
+
+`;
+
+});
+
+}
+
+function guessLow(){
+
+app.innerHTML=`
+<div class="number" id="num"></div>
+`;
+
+animateNumber("0927",()=>{
+
+setTimeout(success,500);
+
+});
+
+}
+
+function success(){
+
+app.innerHTML=`
+
+<div class="number">
+0927
+</div>
+
+<div class="success">
+
+Congratulation!<br><br>
+
+ダブルアップ成功！<br><br>
+
+5000マニー を てにいれた！
+
+</div>
+
+<a
+class="gift-btn"
+href="https://YOUR-GIFT-URL"
+target="_blank">
+
+ギフトを受け取る
+
+</a>
+
+<div class="message">
+
+誕生日おめでとう。^-^/<br><br>
+
+素敵な1年になりますように。
+
+</div>
+
+`;
+
+}
+
+home();
+
+</script>
+
+</body>
+</html>
